@@ -43,3 +43,38 @@ function highlightLinks() {
 }
 
 highlightLinkButtonElement.addEventListener("click", highlightLinks);
+
+// -----------------------------------------------------------------------------------------------------------------------
+// Display user data
+// We need to access properties inside an object in here.
+// Therefor we use for-in loop in here.
+
+const dummyUserData = {
+  firstName: "Avishka",
+  lastName: "Indula",
+  age: 21,
+};
+
+const displayUserDataButtonElement =
+  document.querySelector("#user-data button");
+
+function displayUserData() {
+  const outputDataElement = document.getElementById("output-user-data");
+
+  outputDataElement.innerHTML = "";
+  // This line of code ensures that the display data loop won't be executed more than once.
+  // Because it's technically removed and re-added in every click.
+
+  for (const key in dummyUserData) {
+    const newUserDataListItemElement = document.createElement("li");
+    // The property name is stored as a string value in the "key" constant.
+    // This code will create a new "li" item for every property inside the object
+    const outputText = key.toUpperCase() + ": " + dummyUserData[key];
+    // key.toUpperCase() will give the names of the properties of the object.
+    // dummyUserData[Key] will give the values of the properties of that object.
+    newUserDataListItemElement.textContent = outputText;
+    outputDataElement.append(newUserDataListItemElement);
+  }
+}
+
+displayUserDataButtonElement.addEventListener("click", displayUserData);
