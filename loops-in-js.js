@@ -23,3 +23,23 @@ function calculatorSum() {
 // The code inside the function is self explanatory.
 
 calculateSumButtonElement.addEventListener("click", calculatorSum);
+
+// -----------------------------------------------------------------------------------------------------------------------
+// Highlight links
+
+const highlightLinkButtonElement = document.querySelector(
+  "#highlight-links button"
+);
+
+function highlightLinks() {
+  const anchorElements = document.querySelectorAll("#highlight-links a");
+  // querySelectorAll will return "all" matching elements.
+  // which means this will return an array.
+  // we use for-of loops for arrays.
+
+  for (const anchorElement of anchorElements) {
+    anchorElement.classList.add("highlight");
+  }
+}
+
+highlightLinkButtonElement.addEventListener("click", highlightLinks);
