@@ -78,3 +78,84 @@ function displayUserData() {
 }
 
 displayUserDataButtonElement.addEventListener("click", displayUserData);
+
+// -----------------------------------------------------------------------------------------------------------------------
+// Statistics / Roll the Dice
+// This is just a code that checks how many times it rolled to "match" a randomized number to the
+// number which was given by the user via an input.
+
+const rollDiceButtonElement = document.querySelector("#statistics button");
+
+function rollDice() {
+  // return Math.random();
+  // Math is a globally available object built into the browser.
+  // It has a "random" method which returns a random number between 0 and 1.
+  // 0 is included and 1 is excluded and this returns any floating point number in between. (like 0.5234)
+  // But we need a integer value between 1 and 6.
+  // We can achieve that like this.
+  return Math.floor(Math.random() * 6) + 1;
+  // Math.floor will round a floating value to the nearest integer.
+  // But actually it's not rounding. It just cuts down the floating numbers.
+  // So if we have 5.7655 as the result, it will give 5 as the output.
+  // But this still gives numbers between 0 and 5. But we want numbers between 1 and 6.
+  // So if we add +1 in the end, we get random numbers between 1 and 6 instead of 0 and 5.
+}
+// We create the Dice Rolling logic "outside" the event listener function like this.
+// We can add this function "inside" to the event listener function after that.
+
+function deriveNumberOfDiceRolls() {
+  const targetNumberInputElement =
+    document.getElementById("user-target-number");
+  const diceRollsListElement = document.getElementById("dice-rolls");
+  const enteredNumber = targetNumberInputElement.value;
+  // This code gives the value as a "string".
+
+  // const enteredNumber = +targetNumberInputElement.value;
+  // If we put a + sign in front like this, the code will give the value as a "number".
+
+  diceRollsListElement.innerHTML = "";
+  // This line of code ensures that the display data loop won't be executed more than once.
+  // Because it's technically removed and re-added in every click.
+
+  let hasRolledTargetNumber = false;
+  // This is also another common way of naming variables. (using has at the beginning of the name.)
+
+  let numberOfRolls = 0;
+
+  while (!hasRolledTargetNumber) {
+    const rolledNumber = rollDice();
+    // This is how we add the dice rolling logic function inside the event listener function.
+
+    numberOfRolls = numberOfRolls + 1;
+    // numberOfRolls++; This is an alternative way to write the above code.
+    // This code will keep track of the number of rolls it took to match the target number.
+
+    const newRollListItemElement = document.createElement("li");
+    const outputText = "Roll " + numberOfRolls + ": " + rolledNumber;
+    newRollListItemElement.textContent = outputText;
+    diceRollsListElement.append(newRollListItemElement);
+    // This is how we output the result of the roll.
+
+    // if (rolledNumber == enteredNumber) {
+    // When we get a value from a input field, it will always be a "string" even if the input type is number.
+    // So because we compare a string to a number, we use == instead of ====.
+    // hasRolledTargetNumber = true;
+    // }
+    // We can shorten the above code like this.
+    hasRolledTargetNumber = rolledNumber == enteredNumber;
+    // This == comparison operator "yield" a Boolean value;
+    // So This code tells that if rolledNumber == enteredNumber, then hasRolledTargetNumber = true;
+    // Otherwise if rolledNumber !== enteredNumber, then hasRolledTargetNumber = false;
+  }
+  //  A while loop will keep on looping "until" a certain condition is "not" met anymore.
+
+  const outputTotalRollsElement = document.getElementById("output-total-rolls");
+  const outputTargetNumberElement = document.getElementById(
+    "output-target-number"
+  );
+
+  outputTargetNumberElement.textContent = enteredNumber;
+  outputTotalRollsElement.textContent = numberOfRolls;
+}
+
+rollDiceButtonElement.addEventListener("click", deriveNumberOfDiceRolls);
